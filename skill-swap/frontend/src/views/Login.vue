@@ -30,12 +30,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '../stores/user'
 import { Message, Lock } from '@element-plus/icons-vue'
 
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const formRef = ref()
 const loading = ref(false)
@@ -61,7 +62,12 @@ async function handleLogin() {
     loading.value = true
     await userStore.login(form.value)
     ElMessage.success('登录成功')
-    router.push('/')
+    const redirect = route.query.redirect
+    if (redirect && redirect !== '/login' && redirect !== '/register') {
+      router.push(redirect)
+    } else {
+      router.push('/')
+    }
   } catch (e) {
     if (e.message) {
       ElMessage.error(e.message)

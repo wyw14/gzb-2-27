@@ -9,3 +9,4 @@ export { skillTreeAPI } from './modules/skillTree'
 
 export { default as default } from './request'
 export { default as request } from './request'
+export { setupRequestHelpers } from './request'
